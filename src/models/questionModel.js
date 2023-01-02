@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import nodemon from "nodemon";
 
 const questionSchema = new mongoose.Schema({
   subjek: {
@@ -21,7 +22,6 @@ const questionSchema = new mongoose.Schema({
   },
   subtopik: {
     type: String,
-    required: true,
     min: 2,
     max: 255,
   },

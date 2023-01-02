@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import getenv from "./src/helper/getenv.js";
 import questionRouter from "./src/routes/questionRoute.js";
+import agentRouter from "./src/routes/agentRoute.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/question", questionRouter);
+app.use("/agent", agentRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
