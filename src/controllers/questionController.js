@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import Question from "../models/questionModel";
-import getenv from "../helper/getenv";
+import Question from "../models/questionModel.js";
+import getenv from "../helper/getenv.js";
 
 export const getAllQuestion = async (req, res, next) => {
   try {
-    const user = await User.find({});
-    res.json(user);
+    const question = await Question.find({});
+    res.json(question);
   } catch (err) {
     next(err);
   }

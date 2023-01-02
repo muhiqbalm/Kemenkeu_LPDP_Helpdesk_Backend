@@ -1,8 +1,9 @@
 import process from "process";
 import express from "express";
 import mongoose from "mongoose";
-import getenv from "./src/helper/getenv.js";
 import cors from "cors";
+import getenv from "./src/helper/getenv.js";
+import questionRouter from "./src/routes/questionRoute.js";
 
 const app = express();
 
@@ -10,6 +11,7 @@ const PORT = getenv("PORT");
 const MONGO_URI = getenv("MONGO_URI");
 
 mongoose
+  .set("strictQuery", "false")
   .connect(MONGO_URI)
   .then(() => console.log("Connected to the database!"))
   .catch((err) => {
@@ -25,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Express");
 });
+
+app.use("/question", questionRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
