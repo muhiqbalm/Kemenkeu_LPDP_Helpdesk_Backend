@@ -34,3 +34,53 @@ export const createQuestion = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getQuestionById = async (req, res, next) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    res.json({
+      subjek: question.subjek,
+      scope_beasiswa: question.scope_beasiswa,
+      topik: question.topik,
+      subtopik: question.subtopik,
+      pertanyaan: question.pertanyaan,
+      jawaban: question.jawaban,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateQuestionById = async (req, res, next) => {
+  try {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Question.findByIdAndUpdate({ _id: id }, req.body);
+    if (!response) {
+      res.status(404).send({
+        message: `Can't update, question with id=${id} not found!`,
+      });
+    } else if (Object.keys(req.body).length === 0) {
+      res.status(404).send({ message: "Can't update, update value is empty!" });
+    } else {
+      res.status(201).send({ message: "Question successfully updated!" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteQuestionById = async (req, res, next) => {
+  try {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Question.findByIdAndRemove({ _id: id });
+    if (!response) {
+      res.status(404).send({
+        message: `Delete failed, question with id=${id} not found!`,
+      });
+    } else {
+      res.status(201).send({ message: "Question successfully deleted!" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
