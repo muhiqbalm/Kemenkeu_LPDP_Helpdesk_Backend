@@ -16,7 +16,7 @@ const scholarshipSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Subject",
     required: true,
-    default: "Subject Subjek",
+    default: "Subject name",
   },
 });
 
