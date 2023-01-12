@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import nodemon from "nodemon";
 
 const questionSchema = new mongoose.Schema({
   subjek: {

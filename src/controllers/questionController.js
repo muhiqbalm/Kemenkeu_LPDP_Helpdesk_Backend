@@ -84,3 +84,22 @@ export const deleteQuestionById = async (req, res, next) => {
     next(err);
   }
 };
+
+// export const getAllSubject = async (req, res, next) => {
+//   try {
+//     const question = await Question.find({}, { subjek: 1, _id: 0 });
+//     res.json(question);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+// exports.getAllSubject = function(req, res, next) {
+//   //query with mongoose
+//   var query = Question.find({}).select('subjek -_id');
+
+//   query.exec(function (err, someValue) {
+//       if (err) return next(err);
+//       res.send(someValue);
+//   });
+// };
