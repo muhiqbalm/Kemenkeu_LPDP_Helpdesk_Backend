@@ -38,7 +38,7 @@ export const createTopic = async (req, res, next) => {
 export const findTopicById = async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    const response = await Scholarship.findById({ _id: id }).populate({
+    const response = await Topic.findById({ _id: id }).populate({
       path: "beasiswa_name",
       select: "-_id beasiswa",
     });
