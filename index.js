@@ -7,6 +7,8 @@ import questionRouter from "./src/routes/questionRoute.js";
 import agentRouter from "./src/routes/agentRoute.js";
 import subjectRouter from "./src/routes/subjectRoute.js";
 import scholarshipRouter from "./src/routes/scholarshipRoute.js";
+import topicRouter from "./src/routes/topicRoute.js";
+import subtopicRouter from "./src/routes/subtopicRoute.js";
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use("/question", questionRouter);
 app.use("/agent", agentRouter);
 app.use("/subject", subjectRouter);
 app.use("/scholarship", scholarshipRouter);
+app.use("/topic", topicRouter);
+app.use("/subtopic", subtopicRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

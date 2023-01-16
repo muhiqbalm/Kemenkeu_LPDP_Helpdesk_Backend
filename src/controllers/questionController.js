@@ -4,7 +4,11 @@ import getenv from "../helper/getenv.js";
 
 export const getAllQuestion = async (req, res, next) => {
   try {
-    const question = await Question.find({});
+    const question = await Question.find({})
+      .populate({ path: "subjek_name", select: "-_id subjek" })
+      .populate({ path: "beasiswa_name", select: "-_id beasiswa" })
+      .populate({ path: "topik_name", select: "-_id topik" })
+      .populate({ path: "subtopik_name", select: "-_id subtopik" });
     res.json(question);
   } catch (err) {
     next(err);
@@ -14,15 +18,25 @@ export const getAllQuestion = async (req, res, next) => {
 export const createQuestion = async (req, res, next) => {
   try {
     const question = new Question({
-      subjek: req.body.subjek,
-      scope_beasiswa: req.body.scope_beasiswa,
-      topik: req.body.topik,
-      subtopik: req.body.subtopik,
+      subjek_id: req.body.subjek_id,
+      subjek_name: req.body.subjek_id,
+      beasiswa_id: req.body.beasiswa_id,
+      beasiswa_name: req.body.beasiswa_id,
+      topik_id: req.body.topik_id,
+      topik_name: req.body.topik_id,
+      subtopik_id: req.body.subtopik_id,
+      subtopik_name: req.body.subtopik_id,
       pertanyaan: req.body.pertanyaan,
       jawaban: req.body.jawaban,
+      creator: req.agent,
+      last_modifier: req.agent,
     });
     const result = await question.save();
-    res.status(201).send({ message: "Question successfully created!" });
+    if (result) {
+      res.status(201).send({ message: "Question successfully created!" });
+    } else {
+      res.status(404).send({ message: "Question cannot be empty!" });
+    }
   } catch (err) {
     if (["CastError", "ValidationError"].includes(err?.name)) {
       next({
@@ -37,15 +51,13 @@ export const createQuestion = async (req, res, next) => {
 
 export const getQuestionById = async (req, res, next) => {
   try {
-    const question = await Question.findById(req.params.id);
-    res.json({
-      subjek: question.subjek,
-      scope_beasiswa: question.scope_beasiswa,
-      topik: question.topik,
-      subtopik: question.subtopik,
-      pertanyaan: question.pertanyaan,
-      jawaban: question.jawaban,
-    });
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Question.findById({ _id: id })
+      .populate({ path: "subjek_name", select: "-_id subjek" })
+      .populate({ path: "beasiswa_name", select: "-_id beasiswa" })
+      .populate({ path: "topik_name", select: "-_id topik" })
+      .populate({ path: "subtopik_name", select: "-_id subtopik" });
+    res.json({ response });
   } catch (err) {
     next(err);
   }

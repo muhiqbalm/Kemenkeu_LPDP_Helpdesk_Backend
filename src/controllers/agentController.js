@@ -22,7 +22,7 @@ export const getCurrentAgent = async (req, res, next) => {
     res.json({
       id: agent._id,
       username: agent.username,
-      email: agent.email,
+      name: agent.name,
     });
   } catch (err) {
     next(err);
@@ -41,7 +41,7 @@ export const createAgent = async (req, res, next) => {
     );
     const agent = new Agent({
       username: req.body.username,
-      email: req.body.email,
+      name: req.body.name,
       password: encryptedPassword,
     });
     const result = await agent.save();
@@ -80,12 +80,17 @@ export const loginAgent = async (req, res, next) => {
       {
         id: agent._id,
         username: agent.username,
-        email: agent.email,
+        name: agent.name,
       },
       JWT_SECRET
     );
     res.status(200).json({
-      data: { token },
+      token,
+      agent: {
+        id: agent._id,
+        username: agent.username,
+        name: agent.name,
+      },
     });
   } catch (err) {
     next(err);
@@ -112,9 +117,12 @@ export const updateAgentById = async (req, res, next) => {
 
 export const deleteAgent = async (req, res, next) => {
   try {
-    const response = await Agent.findByIdAndDelete(req.agent);
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const response = await Agent.findByIdAndRemove({ _id: id });
     if (!response) {
-      res.status(404).send({ message: "Delete failed, agent not found!" });
+      res.status(404).send({
+        message: `Delete failed, Agent with id=${id} not found!`,
+      });
     } else {
       res.status(201).send({ message: "Agent successfully deleted!" });
     }

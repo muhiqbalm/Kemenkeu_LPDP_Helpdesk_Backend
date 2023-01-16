@@ -1,28 +1,49 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-  subjek: {
-    type: String,
+  subjek_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
     required: true,
-    min: 2,
-    max: 255,
   },
-  scope_beasiswa: {
-    type: String,
+  subjek_name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
     required: true,
-    min: 2,
-    max: 255,
+    default: "nama subjek",
   },
-  topik: {
-    type: String,
+  beasiswa_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scholarship",
     required: true,
-    min: 2,
-    max: 255,
   },
-  subtopik: {
-    type: String,
-    min: 2,
-    max: 255,
+  beasiswa_name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Scholarship",
+    required: true,
+    default: "nama beasiswa",
+  },
+  topik_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Topic",
+    required: true,
+  },
+  topik_name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Topic",
+    required: true,
+    default: "nama topik",
+  },
+  subtopik_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subtopic",
+    required: false,
+  },
+  subtopik_name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subtopic",
+    required: false,
+    default: "nama subtopik",
   },
   pertanyaan: {
     type: String,
@@ -35,6 +56,16 @@ const questionSchema = new mongoose.Schema({
     required: true,
     min: 2,
     max: 2000,
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Agent",
+    required: true,
+  },
+  last_modifier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Agent",
+    required: false,
   },
 });
 

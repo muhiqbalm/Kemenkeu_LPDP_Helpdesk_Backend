@@ -17,7 +17,7 @@ export const auth = (req, res, next) => {
         .status(401)
         .json({ message: "Token failed, authorization denied." });
 
-    req.user = verified.id;
+    req.agent = verified.id;
     next();
   } catch (err) {
     res.status(500).json({ error: err.message });
