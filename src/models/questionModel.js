@@ -36,14 +36,15 @@ const questionSchema = new mongoose.Schema({
   },
   subtopik_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subtopic",
-    required: false,
+    // ref: "Subtopic",
+    required: true,
+    default: null,
   },
   subtopik_name: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subtopic",
-    required: false,
-    default: "nama subtopik",
+    // ref: "Subtopic",
+    required: true,
+    default: null,
   },
   pertanyaan: {
     type: String,
