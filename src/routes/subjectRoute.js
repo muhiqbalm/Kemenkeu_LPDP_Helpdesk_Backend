@@ -4,7 +4,7 @@ import * as auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", Subject.createSubject);
+router.post("/", auth.auth, Subject.createSubject);
 router.get("/", Subject.getAllSubject);
 router.get("/:id", Subject.findSubjectById);
 router.put("/:id", Subject.updateSubjectById);

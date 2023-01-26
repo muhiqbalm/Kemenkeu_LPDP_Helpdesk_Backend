@@ -4,7 +4,7 @@ import * as auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", Scholarship.createScholarship);
+router.post("/", auth.auth, Scholarship.createScholarship);
 router.get("/", Scholarship.findAllScholarship);
 router.get("/:id", Scholarship.findScholarshipById);
 router.put("/:id", Scholarship.updateScholarshipById);
