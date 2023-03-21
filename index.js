@@ -12,7 +12,7 @@ import subtopicRouter from "./src/routes/subtopicRoute.js";
 
 const app = express();
 
-const PORT = getenv("PORT");
+const PORT = process.env.PORT;
 const MONGO_URI = getenv("MONGO_URI");
 
 mongoose
