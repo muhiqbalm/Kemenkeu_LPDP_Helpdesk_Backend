@@ -13,7 +13,7 @@ import subtopicRouter from "./src/routes/subtopicRoute.js";
 const app = express();
 
 const PORT = process.env.PORT;
-const MONGO_URI = getenv("MONGO_URI");
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose
   .set("strictQuery", "false")

@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import getenv from "../helper/getenv.js";
 import Agent from "../models/agentModel.js";
 
-const JWT_SECRET = getenv("JWT_SECRET");
-const SALT = getenv("SALT");
+const JWT_SECRET = process.env.JWT_SECRET;
+const SALT = process.env.SALT;
 
 export const findAllAgent = async (req, res, next) => {
   try {
