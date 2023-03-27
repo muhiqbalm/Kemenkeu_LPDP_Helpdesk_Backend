@@ -16,8 +16,9 @@ const app = express();
 //   methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
 //   headers: ["Origin", "Content-Type", "X-Auth-Token"],
 // };
-const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
+const PORT = "https://ss-kemenkeuprime-backend.vercel.app/";
+const MONGO_URI =
+  "mongodb+srv://lpdp:birokli123@helpdesklpdp.qjeqytq.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .set("strictQuery", "false")
