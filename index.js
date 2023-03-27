@@ -12,7 +12,7 @@ import subtopicRouter from "./src/routes/subtopicRoute.js";
 
 const app = express();
 const corsOptions = {
-  origin: "*",
+  origin: "https://ss-kemenkeuprime.vercel.app/",
 };
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
