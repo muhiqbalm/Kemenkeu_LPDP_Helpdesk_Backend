@@ -11,11 +11,11 @@ import topicRouter from "./src/routes/topicRoute.js";
 import subtopicRouter from "./src/routes/subtopicRoute.js";
 
 const app = express();
-// const corsOptions = {
-//   origin: "https://ss-kemenkeuprime.vercel.app/",
-//   methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-//   headers: ["Origin", "Content-Type", "X-Auth-Token"],
-// };
+const corsOptions = {
+  origin: "https://ss-kemenkeuprime.vercel.app/",
+  methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+  headers: ["Origin", "Content-Type", "X-Auth-Token"],
+};
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -56,7 +56,7 @@ mongoose
 //   next();
 // });
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
