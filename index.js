@@ -20,7 +20,7 @@ const PORT = process.env.PORT;
 const MONGO_URI = getenv("MONGO_URI");
 
 mongoose
-  .set("strictQuery", "false")
+  // .set("strictQuery", "false")
   .connect(MONGO_URI)
   .then(() => console.log("Connected to the database!"))
   .catch((err) => {
