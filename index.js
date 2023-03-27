@@ -12,7 +12,7 @@ import subtopicRouter from "./src/routes/subtopicRoute.js";
 
 const app = express();
 const corsOptions = {
-  origin: "http://ss-kemenkeuprime.vercel.app",
+  origin: "*",
 };
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -27,14 +27,14 @@ mongoose
     process.exit(1);
   });
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 // app.use(function (req, res, next) {
 //   // Website you wish to allow to connect
