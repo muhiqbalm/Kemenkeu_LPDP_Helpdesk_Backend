@@ -56,7 +56,11 @@ mongoose
 //   next();
 // });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://ss-kemenkeuprime.vercel.app",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
