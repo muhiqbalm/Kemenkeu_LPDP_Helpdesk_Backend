@@ -84,14 +84,14 @@ export const loginAgent = async (req, res, next) => {
   //     },
   //     JWT_SECRET
   //   );
-  //   res.status(200).json({
-  //     token,
-  //     agent: {
-  //       id: agent._id,
-  //       username: agent.username,
-  //       name: agent.name,
-  //     },
-  //   });
+  // res.status(200).json({
+  //   token,
+  //   agent: {
+  //     id: agent._id,
+  //     username: agent.username,
+  //     name: agent.name,
+  //   },
+  // });
   // } catch (err) {
   //   next(err);
   // }
@@ -107,6 +107,11 @@ export const loginAgent = async (req, res, next) => {
     }
 
     const agent = await Agent.findOne({ username });
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
+    };
 
     if (!agent || !(await bcrypt.compare(password, agent.password))) {
       next({
@@ -125,9 +130,15 @@ export const loginAgent = async (req, res, next) => {
       JWT_SECRET
     );
 
-    res
-      .status(200)
-      .json(successResponseBuilder({ agent: agent, accessToken: token }));
+    res.status(200).json({
+      headers: headers,
+      token,
+      agent: {
+        id: agent._id,
+        username: agent.username,
+        name: agent.name,
+      },
+    });
   } catch (err) {
     next(err);
   }
