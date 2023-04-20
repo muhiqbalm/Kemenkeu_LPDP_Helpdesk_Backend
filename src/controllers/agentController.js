@@ -98,7 +98,7 @@ export const loginAgent = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    if (!email || !password) {
+    if (!username || !password) {
       next({
         message: "username and password are required",
         statusCode: 400,
