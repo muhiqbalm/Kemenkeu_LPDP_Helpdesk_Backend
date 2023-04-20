@@ -59,6 +59,35 @@ export const createAgent = async (req, res, next) => {
 };
 
 export const loginAgent = async (req, res, next) => {
+  try {
+    // Get user input
+    const { username, password } = req.body;
+
+    // Check if user exists
+    const agent = await Agent.findOne({ username });
+    if (!agent) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Validate password
+    const isMatch = await bcrypt.compare(password, agent.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Create and sign a JWT
+    const token = jwt.sign(
+      { id: agent._id, username: agent.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // Send the token in the response
+    res.status(200).json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
   // try {
   //   const { username, password } = req.body;
   //   const agent = await Agent.findOne({ username: username });
@@ -95,53 +124,53 @@ export const loginAgent = async (req, res, next) => {
   // } catch (err) {
   //   next(err);
   // }
-  try {
-    const { username, password } = req.body;
+  // try {
+  //   const { username, password } = req.body;
 
-    if (!username || !password) {
-      next({
-        message: "username and password are required",
-        statusCode: 400,
-      });
-      return;
-    }
+  //   if (!username || !password) {
+  //     next({
+  //       message: "username and password are required",
+  //       statusCode: 400,
+  //     });
+  //     return;
+  //   }
 
-    const agent = await Agent.findOne({ username });
-    const headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
-    };
+  //   const agent = await Agent.findOne({ username });
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //     "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
+  //   };
 
-    if (!agent || !(await bcrypt.compare(password, agent.password))) {
-      next({
-        message: "invalid credentials",
-        statusCode: 401,
-      });
-      return;
-    }
+  //   if (!agent || !(await bcrypt.compare(password, agent.password))) {
+  //     next({
+  //       message: "invalid credentials",
+  //       statusCode: 401,
+  //     });
+  //     return;
+  //   }
 
-    const token = jwt.sign(
-      {
-        id: agent._id,
-        username: agent.username,
-        name: agent.name,
-      },
-      JWT_SECRET
-    );
+  //   const token = jwt.sign(
+  //     {
+  //       id: agent._id,
+  //       username: agent.username,
+  //       name: agent.name,
+  //     },
+  //     JWT_SECRET
+  //   );
 
-    res.status(200).json({
-      headers: headers,
-      token,
-      agent: {
-        id: agent._id,
-        username: agent.username,
-        name: agent.name,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+  //   res.status(200).json({
+  //     headers: headers,
+  //     token,
+  //     agent: {
+  //       id: agent._id,
+  //       username: agent.username,
+  //       name: agent.name,
+  //     },
+  //   });
+  // } catch (err) {
+  //   next(err);
+  // }
 };
 
 export const updateAgentById = async (req, res, next) => {
