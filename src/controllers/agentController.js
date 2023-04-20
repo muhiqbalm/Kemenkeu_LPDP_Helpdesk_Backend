@@ -59,21 +59,61 @@ export const createAgent = async (req, res, next) => {
 };
 
 export const loginAgent = async (req, res, next) => {
+  // try {
+  //   const { username, password } = req.body;
+  //   const agent = await Agent.findOne({ username: username });
+  //   if (!agent) {
+  //     return res.status(400).json({
+  //       errors: "Could not find this username!",
+  //       error_type: "username",
+  //     });
+  //   }
+
+  //   const isMatch = await bcrypt.compare(password, agent.password);
+  //   if (!isMatch) {
+  //     return res
+  //       .status(400)
+  //       .json({ errors: "Invalid credentials!", error_type: "password" });
+  //   }
+
+  //   const token = jwt.sign(
+  //     {
+  //       id: agent._id,
+  //       username: agent.username,
+  //       name: agent.name,
+  //     },
+  //     JWT_SECRET
+  //   );
+  //   res.status(200).json({
+  //     token,
+  //     agent: {
+  //       id: agent._id,
+  //       username: agent.username,
+  //       name: agent.name,
+  //     },
+  //   });
+  // } catch (err) {
+  //   next(err);
+  // }
   try {
     const { username, password } = req.body;
-    const agent = await Agent.findOne({ username: username });
-    if (!agent) {
-      return res.status(400).json({
-        errors: "Could not find this username!",
-        error_type: "username",
+
+    if (!email || !password) {
+      next({
+        message: "username and password are required",
+        statusCode: 400,
       });
+      return;
     }
 
-    const isMatch = await bcrypt.compare(password, agent.password);
-    if (!isMatch) {
-      return res
-        .status(400)
-        .json({ errors: "Invalid credentials!", error_type: "password" });
+    const agent = await Agent.findOne({ username });
+
+    if (!agent || !(await bcrypt.compare(password, agent.password))) {
+      next({
+        message: "invalid credentials",
+        statusCode: 401,
+      });
+      return;
     }
 
     const token = jwt.sign(
@@ -84,14 +124,10 @@ export const loginAgent = async (req, res, next) => {
       },
       JWT_SECRET
     );
-    res.status(200).json({
-      token,
-      agent: {
-        id: agent._id,
-        username: agent.username,
-        name: agent.name,
-      },
-    });
+
+    res
+      .status(200)
+      .json(successResponseBuilder({ agent: agent, accessToken: token }));
   } catch (err) {
     next(err);
   }
